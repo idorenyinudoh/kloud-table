@@ -17,6 +17,8 @@ module.exports = {
       "heavy-text": "#515B74",
       "active-page-background": "#F1F8FF",
       "page-foreground": "#8898AA",
+      "table-header-background": "#F8F9FA",
+      "initial-background": "#4780F8",
     },
     extend: {},
   },
