@@ -132,6 +132,7 @@ export default {
       required: true,
     },
   },
+  emits: ["close", "delete", "create-user", "update-user"],
   data() {
     return {
       firstName: "",

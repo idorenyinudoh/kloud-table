@@ -39,5 +39,6 @@ export default {
       required: true,
     },
   },
+  emits: ["close", "delete"],
 };
 </script>
