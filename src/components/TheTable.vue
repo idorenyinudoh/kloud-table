@@ -20,7 +20,12 @@
         >
           <img src="~../assets/search-icon.svg" alt="search" />
         </button>
-        <BasePagination />
+        <BasePagination
+          :total="totalRows"
+          :perPage="rowsPerPage"
+          :page="currentPage"
+          @change-rows-per-page="changeRowsPerPage"
+        />
       </div>
       <div class="overflow-auto">
         <table class="w-full mb-6">
@@ -90,7 +95,13 @@
           </tbody>
         </table>
       </div>
-      <BasePagination class="justify-end" />
+      <BasePagination
+        :total="totalRows"
+        :perPage="rowsPerPage"
+        :page="currentPage"
+        @change-rows-per-page="changeRowsPerPage"
+        class="justify-end"
+      />
     </div>
   </div>
   <UserModal
@@ -135,6 +146,9 @@ export default {
   },
   data() {
     return {
+      rowsPerPage: 10,
+      currentPage: 1,
+      allRows: [],
       displayedRows: [],
       modalIsVisible: false,
       modalOptions: {},
@@ -144,15 +158,29 @@ export default {
       rowToBeDeleted: {},
     };
   },
+  computed: {
+    totalRows() {
+      return this.allRows.length;
+    },
+  },
   mounted() {
-    this.displayedRows = this.data.rows.slice(0, 50);
+    this.data.rows.forEach((row) => {
+      this.allRows.push(row);
+    });
     this.assignIndices();
+    this.setRowsToDisplay();
   },
   methods: {
     assignIndices() {
-      this.displayedRows.forEach((row, index) => {
+      this.allRows.forEach((row, index) => {
         row.index = index;
       });
+    },
+    setRowsToDisplay() {
+      this.displayedRows = this.allRows.slice(
+        (this.currentPage - 1) * this.rowsPerPage,
+        this.currentPage * this.rowsPerPage
+      );
     },
     showCreateModal() {
       this.modalIsVisible = true;
@@ -177,25 +205,27 @@ export default {
       this.modalIsVisible = false;
     },
     createUser(user) {
-      this.displayedRows.push({
+      this.allRows.push({
         name: `${user.firstName} ${user.lastName}`,
         email: user.email,
         "phone-number": user.phone,
       });
       this.assignIndices();
+      this.setRowsToDisplay();
       this.closeModal();
       this.successModalType = "create";
       this.toggleSuccessModal();
     },
     updateUser(user) {
       console.log(user);
-      this.displayedRows.find((row, index) => {
+      this.allRows.find((row, index) => {
         if (index === user.index) {
           row.name = `${user.firstName} ${user.lastName}`;
           row.email = user.email;
           row["phone-number"] = user.phone;
         }
       });
+      this.setRowsToDisplay();
       this.closeModal();
       this.successModalType = "edit";
       this.toggleSuccessModal();
@@ -203,15 +233,23 @@ export default {
     deleteUser(user) {
       if (this.displayedRows.length === 1) {
         this.displayedRows = [];
+        this.allRows = [];
       } else {
         this.displayedRows.splice(user.index, 1);
+        this.allRows.splice(user.index, 1);
       }
+      this.assignIndices();
+      this.setRowsToDisplay();
       this.deleteModalIsVisible = false;
       this.successModalType = "delete";
       this.toggleSuccessModal();
     },
     toggleSuccessModal() {
       this.successModalIsVisible = !this.successModalIsVisible;
+    },
+    changeRowsPerPage(rowsPerPage) {
+      this.rowsPerPage = rowsPerPage;
+      this.setRowsToDisplay();
     },
   },
 };

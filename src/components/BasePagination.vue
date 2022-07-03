@@ -1,11 +1,15 @@
 <template>
   <div class="flex gap-x-2.5 items-center">
     <p class="text-xs font-normal text-light-text">
-      <strong class="font-semibold text-heavy-text">1</strong>
+      <strong class="font-semibold text-heavy-text">
+        {{ indexOfFirstRow }}
+      </strong>
       -
-      <strong class="font-semibold text-heavy-text">50</strong>
+      <strong class="font-semibold text-heavy-text">
+        {{ indexOfLastRow }}
+      </strong>
       of
-      <strong class="font-semibold text-heavy-text">2000</strong>
+      <strong class="font-semibold text-heavy-text">{{ total }}</strong>
       Entries
     </p>
     <div class="w-44 h-7 grid grid-cols-6">
@@ -47,7 +51,13 @@
       <div class="relative flex">
         <select
           class="pr-4 text-xs font-normal text-light-text appearance-none outline-none"
+          v-model.number="rowsPerPage"
+          @change="changeRowsPerPage"
         >
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
           <option value="50">50</option>
         </select>
         <svg
@@ -70,3 +80,41 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    total: {
+      type: Number,
+      required: true,
+    },
+    perPage: {
+      type: Number,
+      required: true,
+    },
+    page: {
+      type: Number,
+      required: true,
+    },
+  },
+  emits: ["change-rows-per-page"],
+  data() {
+    return {
+      rowsPerPage: this.perPage,
+    };
+  },
+  computed: {
+    indexOfFirstRow() {
+      return (this.page - 1) * this.perPage + 1;
+    },
+    indexOfLastRow() {
+      return Math.min(this.page * this.perPage, this.total);
+    },
+  },
+  methods: {
+    changeRowsPerPage() {
+      this.$emit("change-rows-per-page", this.rowsPerPage);
+    },
+  },
+};
+</script>
