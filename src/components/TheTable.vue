@@ -5,7 +5,7 @@
     >
       <p class="font-semibold text-base opacity-50">View All Users</p>
       <button
-        class="px-4 py-1.5 bg-button-background text-white font-normal text-base rounded"
+        class="px-4 py-1.5 bg-button-background text-white font-normal text-base rounded hover:brightness-90 transition-all duration-300 ease-linear"
       >
         Create New User
       </button>
@@ -15,7 +15,7 @@
         class="mb-2.5 p-2.5 bg-table-nav-background rounded flex justify-between items-center"
       >
         <button
-          class="p-2.5 border border-solid border-table-border bg-white ml-8"
+          class="p-2.5 border border-solid border-table-border bg-white ml-8 hover:brightness-95 transition-all duration-300 ease-linear"
         >
           <img src="~../assets/search-icon.svg" alt="search" />
         </button>
@@ -73,12 +73,12 @@
                 class="w-max m-auto p-3.5 flex gap-x-2"
               >
                 <button
-                  class="w-7 h-7 bg-[#F5FAFF] rounded flex justify-center items-center"
+                  class="w-7 h-7 bg-[#F5FAFF] rounded flex justify-center items-center hover:brightness-95 transition-all duration-300 ease-linear"
                 >
                   <img src="~../assets/edit-icon.svg" alt="edit" />
                 </button>
                 <button
-                  class="w-7 h-7 bg-[#FEF5F4] rounded flex justify-center items-center"
+                  class="w-7 h-7 bg-[#FEF5F4] rounded flex justify-center items-center hover:brightness-95 transition-all duration-300 ease-linear"
                 >
                   <img src="~../assets/delete-icon.svg" alt="delete" />
                 </button>

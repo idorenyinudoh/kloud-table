@@ -10,32 +10,32 @@
     </p>
     <div class="w-44 h-7 grid grid-cols-6">
       <button
-        class="border border-solid border-table-border rounded-l flex justify-center items-center bg-white"
+        class="border border-solid border-table-border rounded-l flex justify-center items-center bg-white hover:brightness-95 transition-all duration-300 ease-linear"
       >
         <img src="~../assets/previous-icon.svg" alt="previous" />
       </button>
       <button
-        class="font-roboto text-button-background border border-solid border-table-border text-xs font-normal bg-active-page-background"
+        class="font-roboto text-button-background border border-solid border-table-border text-xs font-normal bg-active-page-background hover:brightness-95 transition-all duration-300 ease-linear"
       >
         1
       </button>
       <button
-        class="font-roboto text-page-foreground border border-solid border-table-border text-xs font-normal bg-white"
+        class="font-roboto text-page-foreground border border-solid border-table-border text-xs font-normal bg-white hover:brightness-95 transition-all duration-300 ease-linear"
       >
         5
       </button>
       <button
-        class="font-roboto text-page-foreground border border-solid border-table-border text-[12px] leading-[2px] p-[9px] flex font-normal bg-white"
+        class="font-roboto text-page-foreground border border-solid border-table-border text-[12px] leading-[2px] p-[9px] flex font-normal bg-white hover:brightness-95 transition-all duration-300 ease-linear"
       >
         ...
       </button>
       <button
-        class="font-roboto text-page-foreground border border-solid border-table-border text-xs font-normal bg-white"
+        class="font-roboto text-page-foreground border border-solid border-table-border text-xs font-normal bg-white hover:brightness-95 transition-all duration-300 ease-linear"
       >
         10
       </button>
       <button
-        class="border border-solid border-table-border rounded-r flex justify-center items-center bg-white"
+        class="border border-solid border-table-border rounded-r flex justify-center items-center bg-white hover:brightness-95 transition-all duration-300 ease-linear"
       >
         <img src="~../assets/next-icon.svg" alt="next" />
       </button>
