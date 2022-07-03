@@ -96,17 +96,25 @@
     v-if="modalIsVisible"
     :modalOptions="modalOptions"
     @close="closeModal"
+    @create-user="createUser"
+  />
+  <SuccessModal
+    v-if="successModalIsVisible"
+    :type="successModalType"
+    @close="toggleSuccessModal"
   />
 </template>
 
 <script>
 import BasePagination from "./BasePagination.vue";
 import UserModal from "./UserModal.vue";
+import SuccessModal from "./SuccessModal.vue";
 
 export default {
   components: {
     BasePagination,
     UserModal,
+    SuccessModal,
   },
   props: {
     data: {
@@ -119,6 +127,8 @@ export default {
       displayedRows: [],
       modalIsVisible: false,
       modalOptions: {},
+      successModalIsVisible: false,
+      successModalType: "",
     };
   },
   mounted() {
@@ -141,6 +151,19 @@ export default {
     },
     closeModal() {
       this.modalIsVisible = false;
+    },
+    createUser(user) {
+      this.displayedRows.push({
+        name: `${user.firstName} ${user.lastName}`,
+        email: user.email,
+        "phone-number": user.phone,
+      });
+      this.closeModal();
+      this.successModalType = "create";
+      this.toggleSuccessModal();
+    },
+    toggleSuccessModal() {
+      this.successModalIsVisible = !this.successModalIsVisible;
     },
   },
 };

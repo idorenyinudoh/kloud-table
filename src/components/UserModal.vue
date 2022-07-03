@@ -19,7 +19,7 @@
           <img src="~../assets/close-icon.svg" alt="close" />
         </button>
       </header>
-      <div class="pt-20 px-32 pb-14">
+      <form class="pt-20 px-32 pb-14" @submit.prevent="handleFormSubmission">
         <div
           class="grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-5 mb-28"
         >
@@ -96,6 +96,7 @@
         </button>
         <div v-else class="flex gap-x-2.5 justify-end">
           <button
+            type="button"
             class="px-4 py-1.5 border border-solid border-red text-red text-base font-normal rounded hover:border-transparent transition duration-300 ease-linear"
           >
             Delete User
@@ -106,7 +107,7 @@
             Save Changes
           </button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
@@ -139,6 +140,25 @@ export default {
       this.email = this.modalOptions.email;
       this.phone = this.modalOptions.phone;
     }
+  },
+  methods: {
+    handleFormSubmission() {
+      if (this.modalOptions.type === "create") {
+        this.$emit("create-user", {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          phone: this.phone,
+        });
+      } else {
+        this.$emit("update-user", {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          phone: this.phone,
+        });
+      }
+    },
   },
 };
 </script>
