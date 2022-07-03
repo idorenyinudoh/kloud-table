@@ -200,7 +200,11 @@ export default {
       this.toggleSuccessModal();
     },
     deleteUser(user) {
-      this.displayedRows.splice(user.index, 1);
+      if (this.displayedRows.length === 1) {
+        this.displayedRows = [];
+      } else {
+        this.displayedRows.splice(user.index, 1);
+      }
       this.deleteModalIsVisible = false;
       this.successModalType = "delete";
       this.toggleSuccessModal();
