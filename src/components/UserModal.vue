@@ -1,0 +1,146 @@
+<template>
+  <div
+    class="fixed top-0 left-0 w-full h-full bg-[#00000080] flex justify-center items-center"
+  >
+    <div class="w-4/5 max-w-[956px] bg-white">
+      <header
+        class="px-8 py-4 border border-solid border-table-border flex justify-between"
+      >
+        <p class="text-base font-semibold text-heavy-text">
+          <span v-if="modalOptions.type === 'create'">
+            Create New User(s)
+          </span>
+          <span v-else> Edit User - {{ modalOptions.userName }}</span>
+        </p>
+        <button>
+          <img src="~../assets/close-icon.svg" alt="close" />
+        </button>
+      </header>
+      <div class="pt-20 px-32 pb-14">
+        <div
+          class="grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-5 mb-28"
+        >
+          <div>
+            <label
+              for="first-name"
+              class="block w-max mb-1.5 text-xs font-normal text-light-text"
+            >
+              FIRST NAME *
+            </label>
+            <input
+              type="text"
+              id="first-name"
+              v-model="firstName"
+              class="w-full border border-solid border-[#C2C9D1] rounded px-2.5 py-2 outline-none text-sm text-[#061A48] focus:border-black transition-all duration-200 ease-linear"
+              placeholder="Enter first name"
+              required
+            />
+          </div>
+          <div>
+            <label
+              for="last-name"
+              class="block w-max mb-1.5 text-xs font-normal text-light-text"
+            >
+              LAST NAME
+            </label>
+            <input
+              type="text"
+              id="last-name"
+              v-model="lastName"
+              class="w-full border border-solid border-[#C2C9D1] rounded px-2.5 py-2 outline-none text-sm text-[#061A48] focus:border-black transition-all duration-200 ease-linear"
+              placeholder="Enter last name"
+            />
+          </div>
+          <div>
+            <label
+              for="email"
+              class="block w-max mb-1.5 text-xs font-normal text-light-text"
+            >
+              EMAIl *
+            </label>
+            <input
+              type="email"
+              id="email"
+              v-model="email"
+              class="w-full border border-solid border-[#C2C9D1] rounded px-2.5 py-2 outline-none text-sm text-[#061A48] focus:border-black transition-all duration-200 ease-linear"
+              placeholder="Enter email"
+              required
+            />
+          </div>
+          <div>
+            <label
+              for="phone"
+              class="block w-max mb-1.5 text-xs font-normal text-light-text"
+            >
+              PHONE NUMBER *
+            </label>
+            <input
+              type="number"
+              id="phone"
+              v-model="phone"
+              class="w-full border border-solid border-[#C2C9D1] rounded px-2.5 py-2 outline-none text-sm text-[#061A48] focus:border-black transition-all duration-200 ease-linear"
+              placeholder="Enter phone number"
+              required
+            />
+          </div>
+        </div>
+        <button
+          v-if="modalOptions.type === 'create'"
+          :disabled="disabled"
+          class="blue-button block ml-auto mr-0 px-10 py-2 bg-button-background border border-solid border-button-background rounded text-white text-base font-semibold"
+        >
+          Create User
+        </button>
+        <div v-else class="flex gap-x-2.5 justify-end">
+          <button
+            class="px-4 py-1.5 border border-solid border-red text-red text-base font-normal rounded hover:border-transparent transition duration-300 ease-linear"
+          >
+            Delete User
+          </button>
+          <button
+            class="blue-button px-10 py-2 bg-button-background border border-solid border-button-background rounded text-white text-base font-semibold"
+          >
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    modalOptions: {
+      type: Object,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+    };
+  },
+  computed: {
+    disabled() {
+      return this.firstName === "" || this.email === "" || this.phone === "";
+    },
+  },
+};
+</script>
+
+<style scoped>
+.blue-button {
+  transition: all 300ms linear;
+}
+.blue-button:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+.blue-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+</style>
