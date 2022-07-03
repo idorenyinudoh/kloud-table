@@ -152,6 +152,7 @@ export default {
         });
       } else {
         this.$emit("update-user", {
+          index: this.modalOptions.index,
           firstName: this.firstName,
           lastName: this.lastName,
           email: this.email,

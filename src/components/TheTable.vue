@@ -97,6 +97,7 @@
     :modalOptions="modalOptions"
     @close="closeModal"
     @create-user="createUser"
+    @update-user="updateUser"
   />
   <SuccessModal
     v-if="successModalIsVisible"
@@ -133,6 +134,9 @@ export default {
   },
   mounted() {
     this.displayedRows = this.data.rows.slice(0, 50);
+    this.displayedRows.forEach((row, index) => {
+      row.index = index;
+    });
   },
   methods: {
     showCreateModal() {
@@ -143,6 +147,7 @@ export default {
       this.modalIsVisible = true;
       this.modalOptions = {
         type: "edit",
+        index: row.index,
         firstName: row.name.split(" ")[0],
         lastName: row.name.split(" ")[1],
         email: row.email,
@@ -160,6 +165,19 @@ export default {
       });
       this.closeModal();
       this.successModalType = "create";
+      this.toggleSuccessModal();
+    },
+    updateUser(user) {
+      console.log(user);
+      this.displayedRows.find((row, index) => {
+        if (index === user.index) {
+          row.name = `${user.firstName} ${user.lastName}`;
+          row.email = user.email;
+          row["phone-number"] = user.phone;
+        }
+      });
+      this.closeModal();
+      this.successModalType = "edit";
       this.toggleSuccessModal();
     },
     toggleSuccessModal() {
