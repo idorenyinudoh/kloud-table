@@ -146,11 +146,14 @@ export default {
   },
   mounted() {
     this.displayedRows = this.data.rows.slice(0, 50);
-    this.displayedRows.forEach((row, index) => {
-      row.index = index;
-    });
+    this.assignIndices();
   },
   methods: {
+    assignIndices() {
+      this.displayedRows.forEach((row, index) => {
+        row.index = index;
+      });
+    },
     showCreateModal() {
       this.modalIsVisible = true;
       this.modalOptions.type = "create";
@@ -179,9 +182,7 @@ export default {
         email: user.email,
         "phone-number": user.phone,
       });
-      this.displayedRows.forEach((row, index) => {
-        row.index = index;
-      });
+      this.assignIndices();
       this.closeModal();
       this.successModalType = "create";
       this.toggleSuccessModal();
