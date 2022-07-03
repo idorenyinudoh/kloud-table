@@ -81,6 +81,7 @@
                 </button>
                 <button
                   class="w-7 h-7 bg-[#FEF5F4] rounded flex justify-center items-center hover:brightness-95 transition-all duration-300 ease-linear"
+                  @click="showDeleteModal(row)"
                 >
                   <img src="~../assets/delete-icon.svg" alt="delete" />
                 </button>
@@ -104,18 +105,26 @@
     :type="successModalType"
     @close="toggleSuccessModal"
   />
+  <DeleteModal
+    v-if="deleteModalIsVisible"
+    :row="rowToBeDeleted"
+    @close="deleteModalIsVisible = false"
+    @delete="deleteUser"
+  />
 </template>
 
 <script>
 import BasePagination from "./BasePagination.vue";
 import UserModal from "./UserModal.vue";
 import SuccessModal from "./SuccessModal.vue";
+import DeleteModal from "./DeleteModal.vue";
 
 export default {
   components: {
     BasePagination,
     UserModal,
     SuccessModal,
+    DeleteModal,
   },
   props: {
     data: {
@@ -130,6 +139,8 @@ export default {
       modalOptions: {},
       successModalIsVisible: false,
       successModalType: "",
+      deleteModalIsVisible: false,
+      rowToBeDeleted: {},
     };
   },
   mounted() {
@@ -153,6 +164,10 @@ export default {
         email: row.email,
         phone: row["phone-number"],
       };
+    },
+    showDeleteModal(row) {
+      this.deleteModalIsVisible = true;
+      this.rowToBeDeleted = row;
     },
     closeModal() {
       this.modalIsVisible = false;
@@ -178,6 +193,12 @@ export default {
       });
       this.closeModal();
       this.successModalType = "edit";
+      this.toggleSuccessModal();
+    },
+    deleteUser(user) {
+      this.displayedRows.splice(user.index, 1);
+      this.deleteModalIsVisible = false;
+      this.successModalType = "delete";
       this.toggleSuccessModal();
     },
     toggleSuccessModal() {
