@@ -6,8 +6,20 @@
     <h1 class="text-center text-5xl text-heading-color mb-6 font-semibold">
       KLOUD COMMERCE CHALLENGE
     </h1>
-    <p class="font-normal text-2xl text-white opacity-70 text-center mb-6">
-      {{ headerTexts[activeHeaderTextIndex] }}
+    <p
+      class="font-normal h-8 w-full text-2xl text-white opacity-70 text-center mb-6 relative flex justify-center items-center"
+    >
+      <transition name="fade">
+        <span v-if="activeHeaderTextIndex === 0" class="absolute">
+          {{ headerTexts[0] }}
+        </span>
+        <span v-else-if="activeHeaderTextIndex === 1" class="absolute">
+          {{ headerTexts[1] }}
+        </span>
+        <span v-else-if="activeHeaderTextIndex === 2" class="absolute">
+          {{ headerTexts[2] }}
+        </span>
+      </transition>
     </p>
     <div class="flex gap-4 h-1.5 w-32 m-auto">
       <div
@@ -68,3 +80,21 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.fade-enter-active {
+  animation: fade 0.5s linear forwards;
+}
+.fade-leave-active {
+  animation: fade 0.5s linear forwards reverse;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+</style>
