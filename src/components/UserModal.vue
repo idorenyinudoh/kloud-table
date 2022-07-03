@@ -98,6 +98,7 @@
           <button
             type="button"
             class="px-4 py-1.5 border border-solid border-red text-red text-base font-normal rounded hover:border-transparent transition duration-300 ease-linear"
+            @click="deleteModalIsVisible = true"
           >
             Delete User
           </button>
@@ -110,10 +111,21 @@
       </form>
     </div>
   </div>
+  <DeleteModal
+    v-if="deleteModalIsVisible"
+    :row="row"
+    @close="deleteModalIsVisible = false"
+    @delete="handleUserDeletion"
+  />
 </template>
 
 <script>
+import DeleteModal from "./DeleteModal.vue";
+
 export default {
+  components: {
+    DeleteModal,
+  },
   props: {
     modalOptions: {
       type: Object,
@@ -126,11 +138,21 @@ export default {
       lastName: "",
       email: "",
       phone: "",
+      deleteModalIsVisible: false,
     };
   },
   computed: {
     disabled() {
       return this.firstName === "" || this.email === "" || this.phone === "";
+    },
+    row() {
+      return {
+        index: this.modalOptions.index,
+        firstName: this.modalOptions.firstName,
+        lastName: this.modalOptions.lastName,
+        email: this.modalOptions.email,
+        phone: this.modalOptions.phone,
+      };
     },
   },
   mounted() {
@@ -159,6 +181,11 @@ export default {
           phone: this.phone,
         });
       }
+    },
+    handleUserDeletion() {
+      this.deleteModalIsVisible = false;
+      this.$emit("close");
+      this.$emit("delete", this.row);
     },
   },
 };

@@ -99,6 +99,7 @@
     @close="closeModal"
     @create-user="createUser"
     @update-user="updateUser"
+    @delete="deleteUser"
   />
   <SuccessModal
     v-if="successModalIsVisible"
@@ -177,6 +178,9 @@ export default {
         name: `${user.firstName} ${user.lastName}`,
         email: user.email,
         "phone-number": user.phone,
+      });
+      this.displayedRows.forEach((row, index) => {
+        row.index = index;
       });
       this.closeModal();
       this.successModalType = "create";
