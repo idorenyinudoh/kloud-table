@@ -6,6 +6,7 @@
       <p class="font-semibold text-base opacity-50">View All Users</p>
       <button
         class="px-4 py-1.5 bg-button-background text-white font-normal text-base rounded hover:brightness-90 transition-all duration-300 ease-linear"
+        @click="showCreateModal"
       >
         Create New User
       </button>
@@ -74,6 +75,7 @@
               >
                 <button
                   class="w-7 h-7 bg-[#F5FAFF] rounded flex justify-center items-center hover:brightness-95 transition-all duration-300 ease-linear"
+                  @click="showEditModal(row)"
                 >
                   <img src="~../assets/edit-icon.svg" alt="edit" />
                 </button>
@@ -90,14 +92,21 @@
       <BasePagination class="justify-end" />
     </div>
   </div>
+  <UserModal
+    v-if="modalIsVisible"
+    :modalOptions="modalOptions"
+    @close="closeModal"
+  />
 </template>
 
 <script>
 import BasePagination from "./BasePagination.vue";
+import UserModal from "./UserModal.vue";
 
 export default {
   components: {
     BasePagination,
+    UserModal,
   },
   props: {
     data: {
@@ -108,10 +117,31 @@ export default {
   data() {
     return {
       displayedRows: [],
+      modalIsVisible: false,
+      modalOptions: {},
     };
   },
   mounted() {
     this.displayedRows = this.data.rows.slice(0, 50);
+  },
+  methods: {
+    showCreateModal() {
+      this.modalIsVisible = true;
+      this.modalOptions.type = "create";
+    },
+    showEditModal(row) {
+      this.modalIsVisible = true;
+      this.modalOptions = {
+        type: "edit",
+        firstName: row.name.split(" ")[0],
+        lastName: row.name.split(" ")[1],
+        email: row.email,
+        phone: row["phone-number"],
+      };
+    },
+    closeModal() {
+      this.modalIsVisible = false;
+    },
   },
 };
 </script>

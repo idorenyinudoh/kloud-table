@@ -1,6 +1,7 @@
 <template>
   <div
     class="fixed top-0 left-0 w-full h-full bg-[#00000080] flex justify-center items-center"
+    @click.self="$emit('close')"
   >
     <div class="w-4/5 max-w-[956px] bg-white">
       <header
@@ -10,9 +11,11 @@
           <span v-if="modalOptions.type === 'create'">
             Create New User(s)
           </span>
-          <span v-else> Edit User - {{ modalOptions.userName }}</span>
+          <span v-else>
+            Edit User - {{ modalOptions.firstName }} {{ modalOptions.lastName }}
+          </span>
         </p>
-        <button>
+        <button @click="$emit('close')">
           <img src="~../assets/close-icon.svg" alt="close" />
         </button>
       </header>
@@ -75,7 +78,7 @@
               PHONE NUMBER *
             </label>
             <input
-              type="number"
+              type="text"
               id="phone"
               v-model="phone"
               class="w-full border border-solid border-[#C2C9D1] rounded px-2.5 py-2 outline-none text-sm text-[#061A48] focus:border-black transition-all duration-200 ease-linear"
@@ -128,6 +131,14 @@ export default {
     disabled() {
       return this.firstName === "" || this.email === "" || this.phone === "";
     },
+  },
+  mounted() {
+    if (this.modalOptions.type === "edit") {
+      this.firstName = this.modalOptions.firstName;
+      this.lastName = this.modalOptions.lastName;
+      this.email = this.modalOptions.email;
+      this.phone = this.modalOptions.phone;
+    }
   },
 };
 </script>
