@@ -4,11 +4,19 @@ module.exports = {
   theme: {
     fontFamily: {
       sans: ["Open Sans", "sans-serif"],
+      roboto: ["Roboto", "sans-serif"],
     },
     colors: {
       purple: "#2A2A8F",
       "heading-color": "#EFF1F4",
       white: "#FFFFFF",
+      "table-border": "#E1E5EE",
+      "button-background": "#3399FF",
+      "table-nav-background": "#F1F2F5",
+      "light-text": "#8891A5",
+      "heavy-text": "#515B74",
+      "active-page-background": "#F1F8FF",
+      "page-foreground": "#8898AA",
     },
     extend: {},
   },
