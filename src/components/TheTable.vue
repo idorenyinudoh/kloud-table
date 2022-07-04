@@ -57,7 +57,7 @@
               class="h-[60px] border border-solid border-table-border"
             >
               <td class="p-3.5 text-sm text-light-text font-roboto">
-                <p class="w-max m-auto">{{ index + 1 }}</p>
+                <p class="w-max m-auto">{{ row.index + 1 }}</p>
               </td>
               <td
                 v-for="(header, headerIndex) in data.headers"
