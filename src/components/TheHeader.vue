@@ -23,37 +23,25 @@
     </p>
     <div class="flex gap-4 h-1.5 w-32 m-auto">
       <div
+        v-for="(text, index) in headerTexts"
+        :key="index"
         :class="[
           'bg-white',
           'w-8',
+          'transition-all',
+          'duration-300',
+          'ease-linear',
           {
-            'order-1': activeHeaderTextIndex === 0,
-            'order-2': activeHeaderTextIndex === 1,
-            'order-3': activeHeaderTextIndex === 2,
-          },
-        ]"
-      ></div>
-      <div
-        :class="[
-          'bg-white',
-          'w-8',
-          'opacity-30',
-          {
-            'order-1': activeHeaderTextIndex === 1,
-            'order-2': activeHeaderTextIndex === 2,
-            'order-3': activeHeaderTextIndex === 0,
-          },
-        ]"
-      ></div>
-      <div
-        :class="[
-          'bg-white',
-          'w-8',
-          'opacity-30',
-          {
-            'order-1': activeHeaderTextIndex === 2,
-            'order-2': activeHeaderTextIndex === 1,
-            'order-3': activeHeaderTextIndex === 0,
+            'opacity-30': index !== 0,
+            'translate-x-0':
+              activeHeaderTextIndex === 0 ||
+              (index === 2 && activeHeaderTextIndex === 1),
+            'translate-x-[48px]': index === 0 && activeHeaderTextIndex === 1,
+            'translate-x-[96px]': index === 0 && activeHeaderTextIndex === 2,
+            '-translate-x-[48px]':
+              (index === 1 &&
+                (activeHeaderTextIndex === 1 || activeHeaderTextIndex === 2)) ||
+              (index === 2 && activeHeaderTextIndex === 2),
           },
         ]"
       ></div>
@@ -76,17 +64,17 @@ export default {
       } else {
         this.activeHeaderTextIndex = 0;
       }
-    }, 2000);
+    }, 3000);
   },
 };
 </script>
 
 <style scoped>
 .fade-enter-active {
-  animation: fade 0.5s linear forwards;
+  animation: fade 300ms linear forwards;
 }
 .fade-leave-active {
-  animation: fade 0.5s linear forwards reverse;
+  animation: fade 300ms linear forwards reverse;
 }
 
 @keyframes fade {
