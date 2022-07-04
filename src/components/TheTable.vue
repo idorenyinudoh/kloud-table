@@ -25,6 +25,7 @@
           :perPage="rowsPerPage"
           :page="currentPage"
           @change-rows-per-page="changeRowsPerPage"
+          @change-page="changePage"
         />
       </div>
       <div class="overflow-auto">
@@ -100,6 +101,7 @@
         :perPage="rowsPerPage"
         :page="currentPage"
         @change-rows-per-page="changeRowsPerPage"
+        @change-page="changePage"
         class="justify-end"
       />
     </div>
@@ -233,7 +235,14 @@ export default {
     deleteUser(user) {
       if (this.displayedRows.length === 1) {
         this.displayedRows = [];
-        this.allRows = [];
+        if (this.allRows.length === 1) {
+          this.allRows = [];
+        } else {
+          this.allRows.splice(user.index, 1);
+        }
+        this.currentPage -= 1;
+        this.setRowsToDisplay();
+        console.log(this.currentPage, this.displayedRows);
       } else {
         this.displayedRows.splice(user.index, 1);
         this.allRows.splice(user.index, 1);
@@ -249,6 +258,11 @@ export default {
     },
     changeRowsPerPage(rowsPerPage) {
       this.rowsPerPage = rowsPerPage;
+      this.currentPage = 1;
+      this.setRowsToDisplay();
+    },
+    changePage(page) {
+      this.currentPage = page;
       this.setRowsToDisplay();
     },
   },

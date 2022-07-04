@@ -15,31 +15,48 @@
     <div class="w-44 h-7 grid grid-cols-6">
       <button
         class="border border-solid border-table-border rounded-l flex justify-center items-center bg-white hover:brightness-95 transition-all duration-300 ease-linear"
+        @click="setPage(page - 1)"
       >
         <img src="~../assets/previous-icon.svg" alt="previous" />
       </button>
+      <template v-for="(item, index) in totalPages" :key="index">
+        <button
+          v-if="shownPages.includes(item)"
+          :class="[
+            'font-roboto',
+            item === page ? 'text-button-background' : 'text-page-foreground',
+            item === page ? 'bg-active-page-background' : 'bg-white',
+            'border',
+            'border-solid',
+            'border-table-border',
+            'text-xs',
+            'font-normal',
+            'hover:brightness-95',
+            'transition-all',
+            'duration-300',
+            'ease-linear',
+          ]"
+          @click="setPage(item)"
+        >
+          {{ item }}
+        </button>
+      </template>
       <button
-        class="font-roboto text-button-background border border-solid border-table-border text-xs font-normal bg-active-page-background hover:brightness-95 transition-all duration-300 ease-linear"
-      >
-        1
-      </button>
-      <button
-        class="font-roboto text-page-foreground border border-solid border-table-border text-xs font-normal bg-white hover:brightness-95 transition-all duration-300 ease-linear"
-      >
-        5
-      </button>
-      <button
+        v-if="page !== totalPages && totalPages > 3"
         class="font-roboto text-page-foreground border border-solid border-table-border text-[12px] leading-[2px] p-[9px] flex font-normal bg-white hover:brightness-95 transition-all duration-300 ease-linear"
       >
         ...
       </button>
       <button
+        v-if="page !== totalPages && totalPages !== page + 1"
         class="font-roboto text-page-foreground border border-solid border-table-border text-xs font-normal bg-white hover:brightness-95 transition-all duration-300 ease-linear"
+        @click="setPage(totalPages)"
       >
-        10
+        {{ totalPages }}
       </button>
       <button
         class="border border-solid border-table-border rounded-r flex justify-center items-center bg-white hover:brightness-95 transition-all duration-300 ease-linear"
+        @click="setPage(page + 1)"
       >
         <img src="~../assets/next-icon.svg" alt="next" />
       </button>
@@ -54,6 +71,7 @@
           v-model.number="rowsPerPage"
           @change="changeRowsPerPage"
         >
+          <option value="5">5</option>
           <option value="10">10</option>
           <option value="20">20</option>
           <option value="30">30</option>
@@ -97,7 +115,7 @@ export default {
       required: true,
     },
   },
-  emits: ["change-rows-per-page"],
+  emits: ["change-rows-per-page", "change-page"],
   data() {
     return {
       rowsPerPage: this.perPage,
@@ -110,10 +128,26 @@ export default {
     indexOfLastRow() {
       return Math.min(this.page * this.perPage, this.total);
     },
+    totalPages() {
+      return Math.ceil(this.total / this.perPage);
+    },
+    shownPages() {
+      if (this.page === 1 || this.totalPages <= 2) {
+        return [1, 2];
+      } else {
+        return [this.totalPages - 1, this.totalPages];
+      }
+    },
   },
   methods: {
     changeRowsPerPage() {
       this.$emit("change-rows-per-page", this.rowsPerPage);
+    },
+    setPage(page) {
+      if (page < 1 || page > this.totalPages) {
+        return;
+      }
+      this.$emit("change-page", page);
     },
   },
 };
